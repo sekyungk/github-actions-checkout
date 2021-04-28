@@ -18,8 +18,18 @@ jobs:
         with:
           ref: ${{ github.event.inputs.sha }}
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: AKIA2VSX5HA64DA4NNGT
+          aws-secret-access-key: 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
+          aws-region: ap-northeast-2
+
       - name: install
         run: npm install
 
       - name: build
         run: npm run build
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./dist s3://prod.rider.yogiyo.co.kr
